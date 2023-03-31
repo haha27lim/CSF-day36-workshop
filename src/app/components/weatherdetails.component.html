@@ -1,0 +1,23 @@
+<!-- Cards with media area -->
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{model.cityName}}</mat-card-title>
+        <mat-card-subtitle>{{model.description}}</mat-card-subtitle>
+        <img mat-card-sm-image src="{{model.imageUrl}}" />
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Temperature: {{model.temp}}</p>
+      <br>
+      <p>Humidity: {{model.humidity}}</p>
+      <br>
+      <p>Pressure: {{model.pressure}}</p>
+      <br>
+      <p>WindDegree: {{model.windDegree}}</p>
+      <br>
+      <p>WindSpeed: {{model.windSpeed}}</p>
+      
+    </mat-card-content>
+  </mat-card>
+  
