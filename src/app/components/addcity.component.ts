@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { City } from '../model/city';
-import { WeatherService } from '../services/weather.service';
+import { CitiesRepository } from '../services/cities.repo';
 
 @Component({
   selector: 'app-addcity',
@@ -18,7 +18,7 @@ export class AddcityComponent implements OnInit, OnDestroy{
 
   // constructor to inject dependencies 
   constructor(private formBuilder: FormBuilder, private router: Router,
-      private weatherSvc: WeatherService){
+    private citiesRepo: CitiesRepository){
     
   }
 
@@ -39,7 +39,7 @@ export class AddcityComponent implements OnInit, OnDestroy{
     const city = this.form?.value['city']; // get the value of the city name input field from the form 
     const imageUrl = this.form?.value['imageUrl']; // get the value of the image URL input field from the form 
     this.cityObj = { country: countryName, city: city, imageUrl: imageUrl}; // create a City object with the input values 
-    this.weatherSvc.addCity(this.cityObj); // uses the weather service to add the created City object 
+    this.citiesRepo.addCity(this.cityObj); // uses the city repository to add the created City object 
     this.router.navigate(['/']); // navigates to the home page
   }
 

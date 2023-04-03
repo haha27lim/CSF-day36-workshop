@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherService } from '../services/weather.service';
+import { CitiesRepository } from '../services/cities.repo';
 
 @Component({
   selector: 'app-listcity',
@@ -10,14 +10,13 @@ export class ListcityComponent implements OnInit{
   // Define the 'cities' property as of type any.
   cities: any;
 
-  // Inject the WeatherService instance.
-  constructor(private weatherSvc: WeatherService){
-
-  }
+  // Inject the CitiesRepository instance.
+  constructor(private citiesRepo: CitiesRepository){}
 
   // Implement OnInit interface
-  ngOnInit(): void {
-      // Set the 'cities' property to the countries data from the WeatherService.
-      this.cities = this.weatherSvc.countries;
+  async ngOnInit() {
+    // Get all the cities from the cities repository.
+    this.cities = await this.citiesRepo.getAllCities();
+    console.log(this.cities); // Log the cities to the console.
   }
 }

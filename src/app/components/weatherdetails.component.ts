@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Weather } from '../model/weather';
 import { WeatherService } from '../services/weather.service';
+import { CitiesRepository } from '../services/cities.repo';
 
 @Component({
   selector: 'app-weatherdetails',
@@ -23,7 +24,7 @@ export class WeatherdetailsComponent implements OnInit, OnDestroy{
 
   // Constructor with dependencies injection
   constructor(private weatherSvc: WeatherService, private router:Router,
-      private activatedRoute: ActivatedRoute) {}
+      private activatedRoute: ActivatedRoute, private citiesRepo: CitiesRepository) {}
 
   // Method called when the component is initialized
   ngOnInit(): void {
@@ -47,22 +48,24 @@ export class WeatherdetailsComponent implements OnInit, OnDestroy{
   getWeatherFromAPI(city: string){
     // Call the weather service to get weather details for the city
     this.weatherSvc.getWeather(city, this.OPENWEATHER_API_KEY)
-      .then( (result) => {
-          // Build a new weather model
-          const cityObj = this.weatherSvc.getCityUrl(city);
-          console.log(cityObj!.imageUrl);
+      .then( async (result) => {
+          // Get the city image URL asynchronously
+          const cityImageUrl = await this.citiesRepo
+                      .getCityImageUrl(city);
+          console.log(cityImageUrl);
+          // Create a new Weather object with the retrieved data
           this.model= new Weather(
             city,
             result.main.temp,
             result.main.pressure,
             result.main.humidity,
             result.weather[0].description,
-            cityObj!.imageUrl,
+            cityImageUrl,
             result.wind.speed,
             result.wind.deg
           )
       }).catch((err)=> {
-        // Handle errors
+         // Handle errors by logging to the console and navigating to the listcity.component view
         console.log(err);
         this.router.navigate([''])
       })
